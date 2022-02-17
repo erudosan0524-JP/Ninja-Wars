@@ -1,12 +1,13 @@
 package jp.ne.sakura.erudoblog.ninjawars.ninjawars;
 
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.command.CommandManager;
+import jp.ne.sakura.erudoblog.ninjawars.ninjawars.listener.NinjaLandListener;
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.runnable.CountDown;
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.runnable.GameTask;
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.utils.Config;
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.utils.GameState;
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.utils.NinjaPlayer;
-import jp.ne.sakura.erudoblog.ninjawars.ninjawars.walljump.WallJumpListener;
+import jp.ne.sakura.erudoblog.ninjawars.ninjawars.listener.WallJumpListener;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -44,14 +45,16 @@ public final class NinjaWars extends JavaPlugin {
 
         gameState = GameState.NONE;
 
-        new WallJumpListener(getInstance());
-
         //コマンドのセットアップ
         command = new CommandManager(getInstance());
         command.setup();
 
         //コンフィグのセットアップ
         myConfig = new Config(getInstance());
+
+        //リスナーのセットアップ
+        new WallJumpListener(getInstance());
+        new NinjaLandListener(getInstance());
     }
 
     @Override

@@ -1,13 +1,12 @@
-package jp.ne.sakura.erudoblog.ninjawars.ninjawars.walljump;
+package jp.ne.sakura.erudoblog.ninjawars.ninjawars.listener;
 
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.*;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
@@ -18,21 +17,9 @@ public class WallJumpListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event){
-        event.getPlayer().setAllowFlight(true);
-    }
-
-    @EventHandler
-    public void onPlayerRespawn(PlayerRespawnEvent event){
-        Player player = event.getPlayer();
-        player.setAllowFlight(true);
-    }
-
-    @EventHandler
-    public void onPlayerWallJump(PlayerToggleFlightEvent event) {
-        Player player = event.getPlayer();
-        if (player.getGameMode() != GameMode.CREATIVE) {
-            event.setCancelled(true);
+    public void onInteract(PlayerInteractEvent e) {
+        if(e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            Player player = e.getPlayer();
 
             Block wxblock = player.getWorld().getBlockAt(player.getLocation().subtract(1.05, 0, 0));
             Block nxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, 1.05));
