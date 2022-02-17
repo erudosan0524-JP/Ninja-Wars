@@ -1,7 +1,10 @@
 name: NinjaWars
 version: '${version}'
 main: jp.ne.sakura.erudoblog.ninjawars.ninjawars.NinjaWars
-api-version: 1.18
+api-version: 1.17
 authors: [ erudo ]
 description: 忍者みたいな動きが出来るプラグイン
+commands:
+  nw:
+    description: Ninja-wars Command
 website: https://github.com/erudosan0524-JP/
