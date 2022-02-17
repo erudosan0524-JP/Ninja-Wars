@@ -1,0 +1,109 @@
+package jp.ne.sakura.erudoblog.ninjawars.walljump;
+
+import org.bukkit.*;
+import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerToggleFlightEvent;
+import org.bukkit.util.Vector;
+
+public class WallJumpListener implements Listener {
+
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event){
+        event.getPlayer().setAllowFlight(true);
+    }
+
+    @EventHandler
+    public void onPlayerRespawn(PlayerRespawnEvent event){
+        Player player = event.getPlayer();
+        player.setAllowFlight(true);
+    }
+
+    @EventHandler
+    public void onPlayerWallJump(PlayerToggleFlightEvent event) {
+        Player player = event.getPlayer();
+        if (player.getGameMode() != GameMode.CREATIVE) {
+            event.setCancelled(true);
+
+            Block wxblock = player.getWorld().getBlockAt(player.getLocation().subtract(1.05, 0, 0));
+            Block nxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, 1.05));
+            Block exblock = player.getWorld().getBlockAt(player.getLocation().subtract(-1.05, 0, 0));
+            Block sxblock = player.getWorld().getBlockAt(player.getLocation().subtract(0, 0, -1.05));
+
+            double angle = player.getLocation().getYaw();
+            double yaw = Utils.normalAbsoluteAngleDegrees(angle);
+            double velox = player.getVelocity().getX();
+            double veloz = player.getVelocity().getZ();
+
+            if (!wxblock.getType().equals(Material.AIR)) {
+                if (yaw >= 50 && yaw <= 130) {
+                    if (velox <= -0.01 && velox >= -1.0 && veloz <= -0.01 && veloz >= -1.0) {
+                        Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * -4.25).setY(0.525).setZ(veloz * 5.25);
+                        player.setVelocity(vector);
+                        Location location = player.getLocation().subtract(1,0,0);
+                        player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP,1,1);
+                        player.spawnParticle(Particle.CRIT_MAGIC,location,20);
+                    } else if (velox <= -0.01 && velox >= -1.0 && veloz <= 1.0 && veloz >= 0.01) {
+                        Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * -4.25).setY(0.525).setZ(veloz * 5.25);
+                        player.setVelocity(vector);
+                        Location location = player.getLocation().subtract(1,0,0);
+                        player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP,1,1);
+                        player.spawnParticle(Particle.CRIT_MAGIC,location,20);
+                    }
+                }
+            } else if (!nxblock.getType().equals(Material.AIR)) {
+                if (yaw >= 140 && yaw <= 220 ) {
+                    if (velox <= 1.0 && velox >= 0.01 && veloz <= -0.01 && veloz >= -1.0) {
+                        Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * 5.25).setY(0.525).setZ(veloz * -4.25);
+                        player.setVelocity(vector);
+                        Location location = player.getLocation().subtract(0,0,1);
+                        player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP,1,1);
+                        player.spawnParticle(Particle.CRIT_MAGIC,location,20);
+                    } else if (velox <= -0.01 && velox >= -1.0 && veloz <= -0.01 && veloz >= -1.0) {
+                        Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * 5.25).setY(0.525).setZ(veloz * -4.25);
+                        player.setVelocity(vector);
+                        Location location = player.getLocation().subtract(0,0,1);
+                        player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP,1,1);
+                        player.spawnParticle(Particle.CRIT_MAGIC,location,20);
+                    }
+                }
+            } else if (!exblock.getType().equals(Material.AIR)) {
+                if (yaw >= 230 && yaw <= 310) {
+                    if (velox <= 1.0 && velox >= 0.01 && veloz <= 1.0 && veloz >= 0.01) {
+                        Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * -4.25).setY(0.525).setZ(veloz * 5.25);
+                        player.setVelocity(vector);
+                        Location location = player.getLocation().subtract(-1,0,0);
+                        player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP,1,1);
+                        player.spawnParticle(Particle.CRIT_MAGIC,location,20);
+                    } else if (velox <= 1.0 && velox >= 0.01 && veloz <= -0.01 && veloz >= -1.0) {
+                        Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * -4.25).setY(0.525).setZ(veloz * 5.25);
+                        player.setVelocity(vector);
+                        Location location = player.getLocation().subtract(-1,0,0);
+                        player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP,1,1);
+                        player.spawnParticle(Particle.CRIT_MAGIC,location,20);
+                    }
+                }
+            } else if (!sxblock.getType().equals(Material.AIR)) {
+                if (yaw >= 320 && yaw <= 360 || yaw >= 0 && yaw <= 40 ) {
+                    if (velox <= -0.01 && velox >= -1.0 && veloz <= 1.0 && veloz >= 0.01) {
+                        Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * 5.25).setY(0.525).setZ(veloz * -4.25);
+                        player.setVelocity(vector);
+                        Location location = player.getLocation().subtract(0,0,-1);
+                        player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP,1,1);
+                        player.spawnParticle(Particle.CRIT_MAGIC,location,20);
+                    } else if (velox <= 1.0 && velox >= 0.01 && veloz <= 1.0 && veloz >= 0.01) {
+                        Vector vector = player.getLocation().getDirection().multiply(0.5).setX(velox * 5.25).setY(0.525).setZ(veloz * -4.25);
+                        player.setVelocity(vector);
+                        Location location = player.getLocation().subtract(0,0,-1);
+                        player.playSound(location, Sound.BLOCK_ANCIENT_DEBRIS_STEP,1,1);
+                        player.spawnParticle(Particle.CRIT_MAGIC,location,20);
+                    }
+                }
+            }
+        }
+    }
+}
