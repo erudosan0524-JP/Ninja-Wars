@@ -12,7 +12,8 @@ public class Help extends SubCommand {
 
     @Override
     public void onCommand(Player player, String[] args) {
-        player.sendMessage("===================",
+        player.sendMessage(
+                "===================",
                 "HELP",
                 "===================");
     }
