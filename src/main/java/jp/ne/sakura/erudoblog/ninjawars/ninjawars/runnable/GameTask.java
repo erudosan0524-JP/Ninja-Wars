@@ -2,6 +2,7 @@ package jp.ne.sakura.erudoblog.ninjawars.ninjawars.runnable;
 
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.NinjaWars;
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.utils.GameState;
+import jp.ne.sakura.erudoblog.ninjawars.ninjawars.utils.NinjaPlayer;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -41,14 +42,21 @@ public class GameTask extends BukkitRunnable {
                     player.sendTitle("GAME OVER!", null, 10, 70, 2);
                 }
             } else {
-                StringBuilder sb = new StringBuilder();
-                sb.append("残り時間:");
-                sb.append(count);
-
-                TextComponent component = new TextComponent();
-                component.setText(sb.toString());
                 for (Player player : Bukkit.getServer().getOnlinePlayers()) {
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, component);
+                    if(NinjaWars.getNinjaPlayer(player) != null) {
+                        NinjaPlayer ninja = NinjaWars.getNinjaPlayer(player);
+                        StringBuilder sb = new StringBuilder();
+                        sb.append("残り時間:");
+                        sb.append(count);
+                        sb.append(" | ");
+                        sb.append("残りHP: ");
+                        sb.append(ninja.getHp());
+
+                        TextComponent component = new TextComponent();
+                        component.setText(sb.toString());
+
+                        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, component);
+                    }
                 }
 
                 count--;

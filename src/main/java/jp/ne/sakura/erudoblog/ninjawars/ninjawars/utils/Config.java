@@ -1,6 +1,8 @@
 package jp.ne.sakura.erudoblog.ninjawars.ninjawars.utils;
 
 import lombok.Getter;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
@@ -12,6 +14,12 @@ public class Config {
 
     @Getter
     private int countdownTime, gameTime;
+
+    @Getter
+    private Material warpBlockType;
+
+    @Getter
+    private Location TPLocation;
 
     public Config(Plugin plugin) {
         this.plugin = plugin;
@@ -30,6 +38,14 @@ public class Config {
 
         countdownTime = config.getInt("countdown-time");
         gameTime = config.getInt("game-time");
+
+        String temp = config.getString("warp-block-type");
+        warpBlockType = Material.valueOf(temp);
+
+        double x = config.getDouble("tp-location.x");
+        double y = config.getDouble(("tp-location.y"));
+        double z = config.getDouble(("tp-location.z"));
+        TPLocation = new Location(null, x,y,z);
 
     }
 

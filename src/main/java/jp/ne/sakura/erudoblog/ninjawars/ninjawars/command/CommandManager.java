@@ -4,6 +4,7 @@ import jp.ne.sakura.erudoblog.ninjawars.ninjawars.NinjaWars;
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.command.commands.SubCommand;
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.command.commands.subcommands.Help;
 import jp.ne.sakura.erudoblog.ninjawars.ninjawars.command.commands.subcommands.Start;
+import jp.ne.sakura.erudoblog.ninjawars.ninjawars.command.commands.subcommands.Warp;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -29,6 +30,7 @@ public class CommandManager implements CommandExecutor {
 
         this.commands.add(new Help(plugin));
         this.commands.add(new Start(plugin));
+        this.commands.add(new Warp(plugin));
     }
 
     @Override
