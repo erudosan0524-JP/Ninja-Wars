@@ -14,7 +14,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -66,16 +69,20 @@ public final class NinjaWars extends JavaPlugin {
     @Override
     public void onDisable() {
         Bukkit.getScheduler().cancelTasks(getInstance());
+        players.removeAll(players);
     }
 
     public void gameStart(int countdownTime, int gameTime) {
         gameState = GameState.COUNTDOWN;
-        for(NinjaPlayer ninja : players) {
-            if(ninja.getStatus() != PlayerStatus.GAME_PLAYER) {
+        for (NinjaPlayer ninja : players) {
+            if (ninja.getStatus() != PlayerStatus.GAME_PLAYER) {
                 ninja.setStatus(PlayerStatus.SPECTATOR);
                 ninja.getPlayer().setGameMode(GameMode.SPECTATOR);
             } else {
-                ninja.getPlayer().teleport(getMyConfig().getTPLocation());
+                Location loc = getMyConfig().getTPLocation().clone();
+                loc.setWorld(ninja.getPlayer().getWorld());
+                ninja.getPlayer().teleport(loc);
+                ninja.getPlayer().getInventory().addItem(new ItemStack(Material.ARROW));
             }
         }
 
@@ -84,7 +91,23 @@ public final class NinjaWars extends JavaPlugin {
     }
 
     public static void addNinjaPlayer(NinjaPlayer ninja) {
-        players.add(ninja);
+        boolean flag = false;
+
+        for(NinjaPlayer np : players) {
+            if(np.getPlayer().getUniqueId().toString().equals(ninja.getPlayer().getUniqueId().toString())) {
+                int index = players.indexOf(np);
+                NinjaPlayer np2 = players.get(index);
+                np2.setHp(ninja.getHp());
+                np2.setJumping(ninja.isJumping());
+                np2.setClimbing(ninja.isClimbing());
+                np2.setStatus(ninja.getStatus());
+                flag = true;
+            }
+        }
+
+        if(!flag) {
+            players.add(ninja);
+        }
     }
 
     public static void addNinjaPlayer(Player player) {

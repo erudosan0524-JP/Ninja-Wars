@@ -20,24 +20,14 @@ public class Warp extends SubCommand {
 
     @Override
     public void onCommand(Player player, String[] args) {
-        List<Player> warpPlayers = new ArrayList<>();
-
         for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+            System.out.println(p.getName());
             if(p.getLocation().getBlock().getRelative(BlockFace.DOWN).getType() == getPlugin().getMyConfig().getWarpBlockType()) {
-                warpPlayers.add(player);
+                NinjaPlayer ninja = new NinjaPlayer(p, PlayerStatus.GAME_PLAYER);
+                NinjaWars.addNinjaPlayer(ninja);
+                p.sendMessage("ゲームに参戦しました");
             }
         }
-
-        Collections.shuffle(warpPlayers);
-        Player warpPlayer = warpPlayers.get(0);
-        NinjaPlayer ninja = new NinjaPlayer(player, PlayerStatus.GAME_PLAYER);
-        NinjaWars.addNinjaPlayer(ninja);
-
-        StringBuilder sb = new StringBuilder();
-        sb.append(warpPlayer.getName());
-        sb.append("が参戦しました");
-        MessageManager.sendMessageAll(sb.toString());
-
     }
 
     @Override
